@@ -43,6 +43,10 @@ span.small {
   font-size: 70%;
 }
 
+a.small-link {
+  font-size: 50%;
+}
+
 .strike {
   text-decoration: line-through;
 }
