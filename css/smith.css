@@ -1,0 +1,48 @@
+.text-bg {
+  padding: 1em;
+  background: rgba(250, 250, 250, 0.5);
+}
+
+.text-bg h1,
+.text-bg h2,
+.text-bg h3,
+.text-bg h4,
+.text-bg p,
+.text-bg li {
+  color: black;
+}
+
+.text-bg ul {
+  margin: 0;
+}
+
+.text-bg li {
+  padding-bottom: 1em;
+  list-style: none;
+  text-align: center;
+}
+
+.reveal section .float img {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.reveal em {
+  font-family: "Courier New", serif;
+  font-style: normal;
+  color: yellow;
+}
+
+.reveal h2.the-end {
+  top: -2em;
+  position: relative;
+}
+
+span.small {
+  font-size: 70%;
+}
+
+.strike {
+  text-decoration: line-through;
+}

@@ -1,0 +1,596 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Migration's Missing Instruction Manual</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/night.css">
+    <link rel="stylesheet" href="css/smith.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <!-- Title -->
+        <section id="title" data-background="images/background.jpg" data-transition="none">
+            <div class="text-bg">
+                <h2>Migration's Missing Instruction Manual</h2>
+            </div>
+            <p>Drupal Camp Atlanta<br/><span class="small">November 10, 2018</span></p>
+            <aside class="notes">
+                Welcome.
+            </aside>
+        </section>
+
+        <!-- intro -->
+        <section id="intro-jim" data-background="images/background.jpg" data-transition="none">
+            <h2>Jim Smith</h2>
+            <img src="images/jns.jpg" alt="Jim Smith">
+            <p>Drupal Developer<br/><span class="small">Oak Ridge National Lab</span></p>
+            <aside class="notes">
+                Introduction - Jim
+            </aside>
+        </section>
+        <section id="intro-derek" data-background="images/background.jpg" data-transition="none">
+            <h2>Derek Brownlee</h2>
+            <img src="images/derek.jpg" alt="Derek Brownlee">
+            <p>Drupal Developer<br/><span class="small">Oak Ridge National Lab</span></p>
+            <aside class="notes">
+                Introduction - Derek
+            </aside>
+        </section>
+        <section id="intro-ornl" data-background="images/background.jpg" data-transition="none">
+            <img src="images/ornl.jpg" alt="ORNL">
+            <p>Oak Ridge National Laboratory<br/><span class="small">https://www.ornl.gov</span></p>
+            <aside class="notes">
+                <ul>
+                    <li>ornl.gov</li>
+                    <li>30,000 nodes, 1700 users, and 800 taxonomy terms</li>
+                    <li>45 content types</li>
+                </ul>
+            </aside>
+        </section>
+
+        <!-- plan for this session -->
+        <section id="covered-1" data-background="images/background.jpg" data-transition="none">
+            <h2>Covered in this Session</h2>
+            <ol>
+                <li class="fragment">Basics of D7 to D8 migration</li>
+                <li class="fragment">Mistakes we made</li>
+                <li class="fragment">Helpful tips and tricks</li>
+            </ol>
+            <aside class="notes">
+                What we'll cover today
+            </aside>
+        </section>
+        <section id="covered-2"  data-background="images/background.jpg" data-transition="none">
+            <h2>Not Covered in this Session</h2>
+            <ol>
+                <li class="fragment">Migrating from other CMSs</li>
+                <li class="fragment">Solutions for every migration problem</li>
+            </ol>
+            <aside class="notes">
+                What we'll cover today
+            </aside>
+        </section>
+
+        <!-- goals -->
+        <section id="goals-1" data-background="images/background.jpg" data-transition="none">
+            <h2>Goals of a Migration</h2>
+            <ol>
+                <li class="fragment">Make it complete</li>
+                <li class="fragment">Make it easy</li>
+                <li class="fragment">Make it reproducible</li>
+            </ol>
+            <aside class="notes">
+                Goals
+            </aside>
+        </section>
+        <section id="goals-2" data-background="images/background.jpg" data-transition="none">
+            <h2>Goals of a Migration</h2>
+            <ol>
+                <li class="strike">Make it complete</li>
+                <li class="strike">Make it easy</li>
+                <li>Make it reproducible</li>
+            </ol>
+            <aside class="notes">
+                Goals
+            </aside>
+        </section>
+
+        <!-- planning -->
+        <section id="planning-1" data-background="images/background.jpg" data-transition="none">
+            <h2>Plan. Plan. Plan.</h2>
+            <div class="float">
+                <img src="images/spreadsheet.png" alt="Migration Planning Spreadsheet">
+            </div>
+            <p class="small">source: drupal.org</p>
+            <aside class="notes">
+                There is no substitute for good planning.
+            </aside>
+        </section>
+        <section id="planning-2" data-background="images/background.jpg" data-transition="none">
+            <h2>Plan what?</h2>
+            <ul>
+                <li class="fragment">Content to move; content to ignore</li>
+                <li class="fragment">Content to restructure (e.g., move to paragraphs)</li>
+                <li class="fragment">Content to clean up (e.g., improve consistency)</li>
+                <li class="fragment">Improvements to content editor experience</li>
+            </ul>
+            <aside class="notes">
+                What you should consider in planning.
+            </aside>
+        </section>
+        <section id="planning-3" data-background="images/background.jpg" data-transition="none">
+            <h2>Don't Migrate</h2>
+            <ul>
+                <li class="fragment">Configuration, if you are making major architecture changes</li>
+                <li class="fragment">Content that no one sees</li>
+                <li class="fragment">Content from a small number of nodes when copy/paste is easier</li>
+            </ul>
+            <aside class="notes">
+                Don't migrate (copy/paste only works if content won't change before you go to prod)
+            </aside>
+        </section>
+        <section id="planning-4" data-background="images/background.jpg" data-transition="none">
+            <h2>Plan Migration Order</h2>
+            <ol>
+                <li>Configuration (optional)</li>
+                <li>Taxonomy Terms</li>
+                <li>Users</li>
+                <li>Files</li>
+                <li>Media Entities</li>
+                <li>Paragraphs</li>
+                <li>Nodes</li>
+            </ol>
+            <aside class="notes">
+                Plan your migration order
+            </aside>
+        </section>
+
+        <!-- migration basics -->
+        <section id="basics-1" data-background="images/background.jpg" data-transition="none">
+            <h2>Migration Steps</h2>
+            <div class="float">
+                <img src="images/migration-terms-1.png" alt="Migration Terms">
+            </div>
+            <aside class="notes">
+                Source and destination
+            </aside>
+        </section>
+        <section id="basics-2" data-background="images/background.jpg" data-transition="none">
+            <h2>Migration Steps</h2>
+            <div class="float">
+                <img src="images/migration-terms-4.png" alt="Migration Terms">
+            </div>
+            <aside class="notes">
+                Source and destination - types
+            </aside>
+        </section>
+        <section id="basics-3" data-background="images/background.jpg" data-transition="none">
+            <h2>Migration Steps</h2>
+            <div class="float">
+                <img src="images/migration-terms-2.png" alt="Migration Terms">
+            </div>
+            <aside class="notes">
+                Magic
+            </aside>
+        </section>
+        <section id="basics-4" data-background="images/background.jpg" data-transition="none">
+            <h2>Migration Steps</h2>
+            <div class="float">
+                <img src="images/migration-terms-3.png" alt="Migration Terms">
+            </div>
+            <aside class="notes">
+                Process
+            </aside>
+        </section>
+
+        <!-- modules -->
+        <section id="modules-core" data-background="images/background.jpg" data-transition="none">
+            <h2>Core Modules</h2>
+            <ul>
+                <li>Migrate</li>
+                <li>Migrate Drupal</li>
+                <li>Migrate Drupal UI</li>
+            </ul>
+            <aside class="notes">
+                <ul>
+                    <li>Migrate provides the underlying API for migrating configuration and content to Drupal 8.</li>
+                    <li>Migrate Drupal provides the capabilities needed to migrate configuration and content.</li>
+                    <li>Migrate Drupal UI provides a user interface.</li>
+                </ul>
+            </aside>
+        </section>
+        <section id="modules-contrib-1" data-background="images/background.jpg" data-transition="none">
+            <h2>Contrib Modules</h2>
+            <ul>
+                <li>Migrate Upgrade</li>
+                <li>Migrate Tools</li>
+                <li>Migrate Plus</li>
+                <li>Migrate Source CSV</li>
+            </ul>
+            <aside class="notes">
+                <ul>
+                    <li>Migrate Upgrade provides basic Drush support.</li>
+                    <li>Migrate Tools provides Drush commands to migrate, rollback, reset status and view status.</li>
+                    <li>Migrate Plus provides grouping migrations and additional process plugins.</li>
+                    <li>Migrate Source CSV allows migrating content from a CSV file instead of a database; is moving to core.</li>
+                </ul>
+            </aside>
+        </section>
+        <section id="modules-contrib-2" data-background="images/background.jpg" data-transition="none">
+            <h2>Contrib Modules</h2>
+            <ul>
+                <li>Migrate Devel</li>
+                <li>Migrate Manifest</li>
+                <li>Migrate Run</li>
+            </ul>
+            <aside class="notes">
+                <ul>
+                    <li>Migrate Devel provides Drush command flag to print out debug information.</li>
+                    <li>Migrate Manifest provides a Drush command for running template-based migrations using a manifest format. (Have not used.)</li>
+                    <li>Migrate Run is a fork of Migrate Tools and has no dependency on Migrate Plus. (Have not used.)</li>
+                </ul>
+            </aside>
+        </section>
+
+        <!-- metadata -->
+        <section id="yml-file-1" data-background="images/background.jpg" data-transition="none">
+            <h2>Migration YML File</h2>
+                <img src="images/yml-file.png" alt="Migration File">
+            <aside class="notes">
+                File
+            </aside>
+        </section>
+        <section id="yml-file-2" data-background="images/background.jpg" data-transition="none">
+            <h2><span class="small">Migration YML File:</span><br/>Metadata</h2>
+            <img src="images/yml_metadata.png" alt="Migration File">
+            <aside class="notes">
+                Metadata: Most of this is unimportant. Only the ID is required.
+            </aside>
+        </section>
+
+        <!-- source -->
+        <section id="yml-file-3" data-background="images/background.jpg" data-transition="none">
+            <h2>Source</h2>
+            <ul>
+                <li class="fragment">Source plugins fetch data from the source</li>
+                <li class="fragment">The source can be SQL database, CSV, JSON, XML or SOAP</li>
+                <li class="fragment">The plugin can come from core, a contrib module, or custom module</li>
+            </ul>
+            <aside class="notes">
+                Source
+            </aside>
+        </section>
+        <section id="yml-file-4" data-background="images/background.jpg" data-transition="none">
+            <h2><span class="small">Migration YML File:</span><br/>Source</h2>
+                <img class="stretch" src="images/yml_source.png" alt="Migration File">
+            <aside class="notes">
+                Source
+            </aside>
+        </section>
+
+        <!-- Process -->
+        <section id="yml-file-5" data-background="images/background.jpg" data-transition="none">
+            <h2>Process</h2>
+            <ul>
+                <li class="fragment">Process plugins can</li>
+                <ul>
+                    <li class="fragment">Copy data</li>
+                    <li class="fragment">Add default data</li>
+                    <li class="fragment">Combine or extract data</li>
+                    <li class="fragment">Skip data</li>
+                    <li class="fragment">Pipe data to different fields</li>
+                    <li class="fragment">Manipulate data</li>
+                </ul>
+                <li class="fragment">These plugins can be chained together</li>
+            </ul>
+            <aside class="notes">
+                Process
+            </aside>
+        </section>
+        <section id="yml-file-6" data-background="images/background.jpg" data-transition="none">
+            <h2><span class="small">Migration YML File:</span><br/>Process</h2>
+                <img class="stretch" src="images/yml_process.png" alt="Migration File">
+            <aside class="notes">
+                Process
+            </aside>
+        </section>
+
+        <!-- Destination -->
+        <section id="yml-file-6" data-background="images/background.jpg" data-transition="none">
+            <h2>Destination</h2>
+            <ul>
+                <li class="fragment">Destination plugins define the kind of Drupal entities to be created</li>
+                <li class="fragment">Content entities: Nodes, users, taxonomy terms, files</li>
+                <li class="fragment">Configuration entities: Content types and field definitions</li>
+            </ul>
+            <aside class="notes">
+                Destination
+            </aside>
+        </section>
+        <section id="yml-file-7" data-background="images/background.jpg" data-transition="none">
+            <h2><span class="small">Migration YML File:</span><br/>Destination</h2>
+                <img class="stretch" src="images/yml_destination.png" alt="Migration File">
+            <aside class="notes">
+                Destination
+            </aside>
+        </section>
+
+        <!-- more on the source -->
+        <section id="database-1" data-background="images/background.jpg" data-transition="none">
+            <h2>Connect to Database</h2>
+            <img class="stretch" src="images/settings.jpg" alt="settings.php">
+            <aside class="notes">
+                Connect to Database
+            </aside>
+        </section>
+        <section id="database-2" data-background="images/background.jpg" data-transition="none">
+            <h2>Connect to CSV</h2>
+            <p>Advantages:</p>
+            <ul>
+                <li>See all of the data at once</li>
+                <li>Edit, clean up the data</li>
+                <li>Use a custom query to combine data from different content types</li>
+            </ul>
+            <aside class="notes">
+                Connect to Database
+            </aside>
+        </section>
+
+        <!-- using YML files -->
+        <section data-background="images/background.jpg" data-transition="none">
+            <h2>Config Single Import</h2>
+            <img src="images/single_import.jpg" alt="Single Import">
+            <aside class="notes">
+                Config Single Import
+            </aside>
+        </section>
+        <section data-background="images/background.jpg" data-transition="none">
+            <h2>Create a Module</h2>
+            <ul>
+                <li class="fragment">When you expect changes in your source before you go live</li>
+                <li class="fragment">If you need a custom plugin</li>
+                <li class="fragment">If you use a source other than a database</li>
+            </ul>
+            <aside class="notes">
+                Create a module
+            </aside>
+        </section>
+        <section data-background="images/background.jpg" data-transition="none">
+            <h2>Using a Module</h2>
+            <ul>
+                <li>Don't forget to disable, then enable it each time you make a change</li>
+            </ul>
+            <aside class="notes">
+                Using a module
+            </aside>
+        </section>
+
+        <!-- Drush -->
+        <section id="drush-1" data-background="images/background.jpg" data-transition="none">
+            <h2>Use Drush</h2>
+            <ul>
+                <li class="fragment">Status: <em>drush ms</em></li>
+                <li class="fragment">Import: <em>drush mim</em></li>
+                <li class="fragment">Rollback: <em>drush mr</em></li>
+                <li class="fragment">Reset: <em>drush mrs</em></li>
+            </ul>
+            <aside class="notes">
+                Drush commands
+            </aside>
+        </section>
+        <section id="drush-2" data-background="images/background.jpg" data-transition="none">
+            <h2>Use Drush</h2>
+            <p>Single entity:<br/><em>drush mim my_nodes --idlist=1234</em></p>
+            <p>Small batch:<br/><em>drush mim my_nodes --limit=10</em></p>
+
+            <aside class="notes">
+                Drush command examples
+            </aside>
+        </section>
+
+        <!-- Sequel Pro -->
+        <section id="sequel-pro-1" data-background="images/background.jpg" data-transition="none">
+            <h2>Look at the Database</h2>
+                <img src="images/sequel-pro.jpg" alt="Sequel Pro">
+            <aside class="notes">
+                Sequel Pro
+            </aside>
+        </section>
+        <section id="sequel-pro-2" data-background="images/background.jpg" data-transition="none">
+            <h2>Look at the Database</h2>
+            <img src="images/migrate_file-table.jpg" alt="File table">
+            <aside class="notes">
+                file table
+            </aside>
+        </section>
+        <section id="sequel-pro-3" data-background="images/background.jpg" data-transition="none">
+            <h2>Message Tables</h2>
+            <img src="images/migrate_messages.jpg" alt="Sequel Pro">
+            <aside class="notes">
+                Migration Message tables
+            </aside>
+        </section>
+        <section id="sequel-pro-4" data-background="images/background.jpg" data-transition="none">
+            <img class="stretch" src="images/migrate_sequel_pro_nid.jpg" alt="idlist">
+            <aside class="notes">
+                Find a single node, use IDlist flag
+            </aside>
+        </section>
+
+        <!-- Migrate Devel -->
+        <section id="migrate-devel-1" data-background="images/background.jpg" data-transition="none">
+            <h2>Migrate Devel Module</h2>
+            <img src="images/debug_source.jpg" alt="Migrate Devel - source">
+            <aside class="notes">
+                Migrate Devel module allows you to see the arrays, best used when limiting to one or two items.
+        </section>
+        <section id="migrate-devel-2" data-background="images/background.jpg" data-transition="none">
+            <h2>Migrate Devel Module</h2>
+            <img src="images/debug_destination.jpg" alt="Migrate Devel - source">
+            <aside class="notes">
+                See the source and destination arrays.
+        </section>
+        <section id="migrate-devel-3" data-background="images/background.jpg" data-transition="none">
+            <h2>See Problems in the Array</h2>
+            <img class="stretch" src="images/migrate_null_array.jpg" alt="Array">
+            <aside class="notes">
+                Inspect an array, see problems.
+        </section>
+
+        <!-- more tips -->
+        <section id="tips-1" data-background="images/background.jpg" data-transition="none">
+            <h2>More Tips</h2>
+            <aside class="notes">
+                As promised... more tips
+            </aside>
+        </section>
+        <section id="tips-2" data-background="images/background.jpg" data-transition="none">
+            <h2>Let Drupal Help You</h2>
+            <p>CKEditor can clean up markup</p>
+            <img src="images/markup.png" alt="CKEditor">
+            <aside class="notes">
+                Let CKEditor clean up messy markup.
+            </aside>
+        </section>
+        <section id="tips-3" data-background="images/background.jpg" data-transition="none">
+            <h2>Dependencies</h2>
+            <img src="images/dependencies.png" alt="Dependencies">
+            <ul>
+                <li>Required: 100% of content must be migrated.</li>
+                <li>Optional: if there are no items from the dependent migration, the migration will still run.</li>
+            </ul>
+            <aside class="notes">
+                Specify required/optional dependencies
+            </aside>
+        </section>
+        <section id="tips-4" data-background="images/background.jpg" data-transition="none">
+            <h2>Comments</h2>
+            <p>Leave yourself notes, test iteratively.</p>
+            <img class="stretch" src="images/migrate_comment.jpg" alt="Comments">
+            <aside class="notes">
+                Keep track of what you're working on with comments.
+            </aside>
+        </section>
+        <section id="tips-5" data-background="images/background.jpg" data-transition="none">
+            <h2>Pseudo-fields</h2>
+            <p>Parse your data.</p>
+            <img class="stretch" src="images/pseudofield.png" alt="Pseudo-field">
+            <aside class="notes">
+                Pseudo-fields help you parse your data before moving to the intended field.
+            </aside>
+        </section>
+        <section id="tips-6" data-background="images/background.jpg" data-transition="none">
+            <h2>Pseudo-fields</h2>
+            <p>Parse your data.</p>
+            <img class="stretch" src="images/pseudofield-2.png" alt="Pseudo-field">
+            <aside class="notes">
+                Pseudo-fields help you parse your data before moving to the intended field.
+            </aside>
+        </section>
+        <section id="tips-7" data-background="images/background.jpg" data-transition="none">
+            <h2>Dummy Variables</h2>
+            <p>Overcome limitations of skip_on_empty.</p>
+            <img class="stretch" src="images/dummy_set.png" alt="Dummy variable">
+            <aside class="notes">
+                Limitation in skip_on_empty makes it fail in some cases.
+            </aside>
+        </section>
+        <section id="tips-8" data-background="images/background.jpg" data-transition="none">
+            <h2>Dummy Variables</h2>
+            <p>Overcome limitations of skip_on_empty.</p>
+            <img class="stretch" src="images/dummy_skip.png" alt="Dummy variable">
+            <aside class="notes">
+                Use skip_on_value with a dummy value.
+            </aside>
+        </section>
+        <section id="tips-9" data-background="images/background.jpg" data-transition="none">
+            <h2>Pantheon Timeout</h2>
+            <p>Use <em>--feedback</em> flag</p>
+            <img class="stretch" src="images/migrate_feedback.jpg" alt="Feedback">
+            <aside class="notes">
+                Use skip_on_value with a dummy value.
+            </aside>
+        </section>
+        <section id="tips-10" data-background="images/background.jpg" data-transition="none">
+            <h2>Lando Slowness</h2>
+            <p>Use "airplane mode"</p>
+            <img class="stretch" src="images/migrate_airplane.jpg" alt="Airplane mode">
+            <aside class="notes">
+                Overcome Lando's slowness by disconnecting from the internet.
+            </aside>
+        </section>
+        <section id="tips-11" data-background="images/background.jpg" data-transition="none">
+            <h2>Custom Plugins</h2>
+            <p>Solve problems core and contrib plugins can't</p>
+            <img class="stretch" src="images/custom_plugin.png" alt="Custom plugin">
+            <aside class="notes">
+                Most custom plugins are easy to write.
+            </aside>
+        </section>
+        <section id="tips-12" data-background="images/background.jpg" data-transition="none">
+            <h2>Custom Plugins</h2>
+            <p>Solve problems core and contrib plugins can't</p>
+            <img class="stretch" src="images/custom_plugin-2.png" alt="Custom plugin">
+            <aside class="notes">
+                Most custom plugins are easy to write.
+            </aside>
+        </section>
+        <section id="tips-13" data-background="images/background.jpg" data-transition="none">
+            <h2>Custom Plugins</h2>
+            <p>Add as you would any plugin</p>
+            <img class="stretch" src="images/custom_plugin-3.png" alt="Custom plugin">
+            <aside class="notes">
+                Add your custom plugins as you would any plugin.
+            </aside>
+        </section>
+
+        <!-- Closing -->
+        <section id="closing" data-background="images/migrating-birds-2769633_1920.jpg" data-transition="none">
+            <h2 class="the-end">Thank you!<br/><span class="small">Good luck with your migrations.</span></h2>
+            <aside class="notes">
+                Good luck
+            </aside>
+        </section>
+
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        fragments: true,
+        fragmentInURL: true,
+        history: true,
+        dependencies: [
+            { src: 'plugin/markdown/marked.js' },
+            { src: 'plugin/markdown/markdown.js' },
+            { src: 'plugin/notes/notes.js', async: true },
+            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'plugin/zoom-js/zoom.js', async: true }
+        ],
+        slideNumber: true
+    });
+</script>
+</body>
+</html>
