@@ -148,6 +148,18 @@
             </aside>
         </section>
         <section id="planning-4" data-background="images/background.jpg" data-transition="none">
+            <img src="images/mockup.png" class="stretch plain" alt="Mockup of new page">
+            <aside class="notes">
+               Derek: Remember that your task is to make this possible. Where is all of that content going to come from?
+            </aside>
+        </section>
+        <section id="planning-4" data-background="images/background.jpg" data-transition="none">
+            <img src="images/mockup-marked-up.png" class="stretch plain" alt="Mockup with fields highlighted">
+            <aside class="notes">
+               Derek: In this mockup we have a Directorate landing page with 6 pieces of information. What are these items like in the source? Are they used differently in the mockup? Don't even think about writing migration code until you've disected the mockup and know where each piece comes from.
+            </aside>
+        </section>
+        <section id="planning-5" data-background="images/background.jpg" data-transition="none">
             <h2>Plan Migration Order</h2>
             <ol>
                 <li>Configuration (optional)</li>
@@ -247,8 +259,8 @@
                 <p>Derek:</p>
                 <ul>
                     <li>Migrate Devel provides Drush command flag to print out debug information.</li>
-                    <li>Migrate Manifest provides a Drush command for running template-based migrations using a manifest format. (Have not used.)</li>
-                    <li>Migrate Run is a fork of Migrate Tools and has no dependency on Migrate Plus. (Have not used.)</li>
+                    <li>Migrate Manifest provides a Drush command for running template-based migrations using a manifest format. Split off of Migrate Plus (Have not used.)</li>
+                    <li>Migrate Run is a fork of Migrate Tools and has no dependency on Migrate Plus. For CLI folks (Have not used.)</li>
                 </ul>
             </aside>
         </section>
@@ -362,7 +374,7 @@
             <h2>Config Single Import</h2>
             <img src="images/single_import.jpg" alt="Single Import">
             <aside class="notes">
-                Derek: Config Single Import
+                Derek: Migration definitions are written as YML config files, so use Configuration Management to import them into the site.
             </aside>
         </section>
         <section data-background="images/background.jpg" data-transition="none">
@@ -373,7 +385,12 @@
                 <li class="fragment">If you use a source other than a database</li>
             </ul>
             <aside class="notes">
-                Derek: Create a module
+                <p>Derek:</p>
+                <ul>
+                    <li>When your source is not static</li>
+                    <li>When you're going to have to massage the data</li>
+                    <li>When you cannot pull from the source using core plugins</li>
+                </ul>
             </aside>
         </section>
         <section data-background="images/background.jpg" data-transition="none">
@@ -382,7 +399,7 @@
                 <li>Don't forget to disable, then enable it each time you make a change</li>
             </ul>
             <aside class="notes">
-                Derek: Using a module
+                Derek: Remember that we're dealing with config. So the database doesn't know about changes to code until the code is imported into the database. With a migration module these updates occur when we uninstall and then re-enable the module. 
             </aside>
         </section>
 
@@ -497,7 +514,7 @@
             <p>Parse your data.</p>
             <img class="stretch" src="images/pseudofield.png" alt="Pseudo-field">
             <aside class="notes">
-                Derek: Pseudo-fields help you parse your data before moving to the intended field.
+                Derek: Pseudo-fields help you parse your data before moving to the intended field. Equivalent to temp variables in any programming language.
             </aside>
         </section>
         <section id="tips-6" data-background="images/background.jpg" data-transition="none">
@@ -529,12 +546,12 @@
             <p>Use <em>--feedback</em> flag</p>
             <img class="stretch" src="images/migrate_feedback.jpg" alt="Feedback">
             <aside class="notes">
-                Jim: Use skip_on_value with a dummy value.
+                Jim: Prevent remote execution timeouts by using the feedback flag.
             </aside>
         </section>
         <section id="tips-10" data-background="images/background.jpg" data-transition="none">
             <h2>Lando Slowness</h2>
-            <p>Use "airplane mode"</p>
+            <p>Use "Airplane mode"</p>
             <img class="stretch" src="images/migrate_airplane.jpg" alt="Airplane mode">
             <aside class="notes">
                 Derek: Overcome Lando's slowness by disconnecting from the internet.
@@ -542,13 +559,22 @@
         </section>
         <section id="tips-11" data-background="images/background.jpg" data-transition="none">
             <h2>Lando Slowness</h2>
-            <p>Use "airplane mode"</p>
-            <img class="stretch" src="images/switch-location.png" alt="Airplane mode">
+            <p>Switch locations</p>
+            <img class="stretch" src="images/switch-location.png" alt="Switching locations">
             <aside class="notes">
-                Derek: Overcome Lando's slowness by disconnecting from the internet.
+                Derek: Easily switch between locations as needed.
             </aside>
         </section>
         <section id="tips-12" data-background="images/background.jpg" data-transition="none">
+            <h2>TripMode</h2>
+            <p><span class="small">Keep everything else online</span></p>
+            <img class="stretch" src="images/TripMode.png" alt="TripMode app">
+            <p><span class="small">www.tripmode.ch</span></p>
+            <aside class="notes">
+                Derek: Poweruser tool. Limit data access on a per app basis.
+            </aside>
+        </section>
+        <section id="tips-13" data-background="images/background.jpg" data-transition="none">
             <h2>Custom Plugins</h2>
             <p>Solve problems core and contrib plugins can't</p>
             <img class="stretch" src="images/custom_plugin.png" alt="Custom plugin">
@@ -556,7 +582,7 @@
                 Jim: Most custom plugins are easy to write.
             </aside>
         </section>
-        <section id="tips-13" data-background="images/background.jpg" data-transition="none">
+        <section id="tips-14" data-background="images/background.jpg" data-transition="none">
             <h2>Custom Plugins</h2>
             <p>Solve problems core and contrib plugins can't</p>
             <img class="stretch" src="images/custom_plugin-2.png" alt="Custom plugin">
@@ -564,12 +590,56 @@
                 Jim: Most custom plugins are easy to write.
             </aside>
         </section>
-        <section id="tips-14" data-background="images/background.jpg" data-transition="none">
+        <section id="tips-15" data-background="images/background.jpg" data-transition="none">
             <h2>Custom Plugins</h2>
             <p>Add as you would any plugin</p>
             <img class="stretch" src="images/custom_plugin-3.png" alt="Custom plugin">
             <aside class="notes">
                 Jim: Add your custom plugins as you would any plugin.
+            </aside>
+        </section>
+
+        <!-- Processing examples -->
+        <section id="example-1" data-background="images/background.jpg" data-transition="none">
+            <h2>Examples of Complex Processing</h2>
+            <aside class="notes">
+                Derek: Here's some examples of when things get tricky
+            </aside>
+        </section>
+        <section id="example-2" data-background="images/background.jpg" data-transition="none">
+            <img class="stretch plain" src="images/primary_org.png" alt="Migrating the Primary Org field">
+            <aside class="notes">
+                Derek: Here's a tricky one that's not immediatly obvious: the static map plugin does not set the default value when the source is empty. That causes an error. Therefore, if you always want a value to be set, then you must ensure that the source is not empty. Notice also that we're using the callback plugin. This plugin lets you send data to any php function. Here we're using array_filter and reset. These are two php array functions that you can call directly within your migration file. The only catch is that you have cannot provide any options. So if you need to do something more complicated, write a custom process plugin.
+            </aside>
+        </section>
+        <section id="example-3" data-background="images/background.jpg" data-transition="none">
+            <img class="stretch plain" src="images/full_name.png" alt="Constructing a full name pseudofield">
+            <aside class="notes">
+                Jim: Here is an example of cleaning up messy source data. We use the caret as a placeholder to help us identify and remove extra spaces. In this case it was possible for the middle name to contain only a space, which would result in three spaces between the first and last name unless you process away that possibility.
+            </aside>
+        </section>
+        <section id="example-4" data-background="images/background.jpg" data-transition="none">
+            <img class="stretch plain" src="images/secondary_org_terms.png" alt="Building a pseudofield">
+            <aside class="notes">
+                Derek: On the left we combine 48 taxonomy fields into a pseudofield (notice the large jump in the line numbers), flatten the result array since we could have recieved a nested array, and the last step is to set a default value if the result of the flatten is empty. On the right we skip out of this process if we detect the default value, if not we take the 244 possible values (again notice the line number jump) and map them to the appropriate new term IDs. Notice that in the last step we call a custom plugin called make_unique. We had to add this after realizing that we were getting duplicate terms on the nodes.
+            </aside>
+        </section>
+        <section id="example-5" data-background="images/background.jpg" data-transition="none">
+            <img class="stretch plain" src="images/make_unique.png" alt="The make_unique custom plugin">
+            <aside class="notes">
+                Jim: Here is the make_unique plugin. Not much too it, but it saved us a ton of cleanup work.
+            </aside>
+        </section>
+        <section id="example-6" data-background="images/background.jpg" data-transition="none">
+            <img class="stretch plain" src="images/long_caption.png" alt="Setting an image caption field">
+            <aside class="notes">
+                Derek: Here is seeminly straightforward setup: if a value exists in field_blog_slide_caption for this node, then pass the value to the new slide label. The problem is that in our D7 source this field was a long text field and in D8 it's short.
+            </aside>
+        </section>
+        <section id="example-7" data-background="images/background.jpg" data-transition="none">
+            <img class="stretch plain" src="images/truncate_to_255.png" alt="The truncate_to_255 custom plugin">
+            <aside class="notes">
+                Derek: So we created this truncate_to_255 custom plugin that returns the full value of the field if it's length is 255 or less, or it returns truncated version of the value with an elipsis added on the end.
             </aside>
         </section>
 
