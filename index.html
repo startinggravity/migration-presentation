@@ -602,38 +602,33 @@
 
         <!-- Processing examples -->
         <section id="example-1" data-background="images/background.jpg" data-transition="none">
-            <section>
                 <h2>Examples of Complex Processing</h2>
                 <aside class="notes">
                     Derek: Here's some examples of when things get tricky
                 </aside>
             </section>
-        <!-- <section id="example-2" data-background="images/background.jpg" data-transition="none"> -->
-            <section>
+        <section id="example-2" data-background="images/background.jpg" data-transition="none">
                 <img class="stretch plain" src="images/primary_org.png" alt="Migrating the Primary Org field">
                 <aside class="notes">
-                    Derek: Here's a tricky one that's not immediatly obvious: the static map plugin does not set the default value when the source is empty. That causes an error. Therefore, if you always want a value to be set, then you must ensure that the source is not empty. Notice also that we're using the callback plugin. This plugin lets you send data to any php function. Here we're using array_filter and reset. These are two php array functions that you can call directly within your migration file. The only catch is that you have cannot provide any options. So if you need to do something more complicated, write a custom process plugin.
+                    Derek: This a tricky one that's not immediatly obvious: the static map plugin does not set the default value when the source is empty. That causes an error. Therefore, if you always want a value to be set, then you must ensure that the source is not empty. Notice also that we're using the callback plugin. This plugin lets you send data to any php function. Here we're using array_filter and reset. These are two php array functions that you can call directly within your migration file. The only catch is that you have cannot provide any options. So if you need to do something more complicated, write a custom process plugin.
                 </aside>
             </section>
-        <!-- <section id="example-3" data-background="images/background.jpg" data-transition="none"> -->
-            <section>
+        <section id="example-3" data-background="images/background.jpg" data-transition="none">
                 <img class="stretch plain" src="images/full_name.png" alt="Constructing a full name pseudofield">
                 <aside class="notes">
                     Jim: Here is an example of cleaning up messy source data. We use the caret as a placeholder to help us identify and remove extra spaces. In this case it was possible for the middle name to contain only a space, which would result in three spaces between the first and last name unless you process away that possibility.
                 </aside>
             </section>
-        <!-- <section id="example-4" data-background="images/background.jpg" data-transition="none"> -->
-            <section>
+        <section id="example-4" data-background="images/background.jpg" data-transition="none">
                 <img class="stretch plain" src="images/secondary_org_terms.png" alt="Building a pseudofield">
                 <aside class="notes">
                     Derek: On the left we combine 48 taxonomy fields into a pseudofield (notice the large jump in the line numbers), flatten the result array since we could have recieved a nested array, and the last step is to set a default value if the result of the flatten is empty. On the right we skip out of this process if we detect the default value, if not we take the 244 possible values (again notice the line number jump) and map them to the appropriate new term IDs. Notice that in the last step we call a custom plugin called make_unique. We had to add this after realizing that we were getting duplicate terms on the nodes.
                 </aside>
             </section>
-        <!-- <section id="example-5" data-background="images/background.jpg" data-transition="none"> -->
-            <section>
+        <section id="example-5" data-background="images/background.jpg" data-transition="none">
                 <img class="stretch plain" src="images/make_unique.png" alt="The make_unique custom plugin">
                 <aside class="notes">
-                    Jim: Here is the make_unique plugin. Not much too it, but it saved us a ton of cleanup work.
+                    Jim: Here is the make_unique plugin. Not much to it, but it saved us a ton of cleanup work.
                 </aside>
             </section>
         <!-- <section id="example-6" data-background="images/background.jpg" data-transition="none"> -->
@@ -643,8 +638,7 @@
                     Derek: Here is seeminly straightforward setup: if a value exists in field_blog_slide_caption for this node, then pass the value to the new slide label. The problem is that in our D7 source this field was a long text field and in D8 it's short.
                 </aside>
             </section>
-        <!-- <section id="example-7" data-background="images/background.jpg" data-transition="none"> -->
-            <section>
+        <section id="example-7" data-background="images/background.jpg" data-transition="none">
                 <img class="stretch plain" src="images/truncate_to_255.png" alt="The truncate_to_255 custom plugin">
                 <aside class="notes">
                     Derek: So we created this truncate_to_255 custom plugin that returns the full value of the field if it's length is 255 or less, or it returns truncated version of the value with an elipsis added on the end.
